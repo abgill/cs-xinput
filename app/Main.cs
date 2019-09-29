@@ -27,11 +27,13 @@ namespace app
 
             while (true)
             {
+                //Console.Clear();
                 state = XinputController.getControllerState(0);
 
                 Console.SetCursorPosition(0, 1);
-
+                
                 Console.Out.WriteLine(state.ToString());
+                
 
             }
         }

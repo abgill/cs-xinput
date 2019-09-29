@@ -3,10 +3,11 @@
 
 #include <Windows.h>
 #include <Xinput.h>
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 #pragma comment (lib, "xinput.lib")
+
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -25,25 +26,26 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 
 typedef struct {
-	int IS_CONNECTED;
-	int A;
-	int B;
-	int X;
-	int Y;
+	INT32 IS_CONNECTED;
 
-	int LB;
-	int RB;
+	INT32 A;
+	INT32 B;
+	INT32 X;
+	INT32 Y;
 
-	int LS;
-	int RS;
+	INT32 LB;
+	INT32 RB;
 
-	int DPAD_UP;
-	int DPAD_DOWN;
-	int DPAD_LEFT;
-	int DPAD_RIGHT;
+	INT32 LS;
+	INT32 RS;
 
-	int START;
-	int SELECT;
+	INT32 DPAD_UP;
+	INT32 DPAD_DOWN;
+	INT32 DPAD_LEFT;
+	INT32 DPAD_RIGHT;
+
+	INT32 START;
+	INT32 SELECT;
 
 	float LEFT_STICK_X;
 	float LEFT_STICK_Y;
@@ -60,48 +62,48 @@ typedef struct {
 ControllerState __declspec(dllimport) getControllerState(INT32 controller);
 
 
-ControllerState initState() {
-	ControllerState controller_state;
+void initState(ControllerState* controller_state) {
 
-	controller_state.IS_CONNECTED = FALSE;
+	controller_state->IS_CONNECTED = FALSE;
 
-	controller_state.A = FALSE;
-	controller_state.B = FALSE;
-	controller_state.X = FALSE;
-	controller_state.Y = FALSE;
+	controller_state->A = FALSE;
+	controller_state->B = FALSE;
+	controller_state->X = FALSE;
+	controller_state->Y = FALSE;
 
-	controller_state.LB = FALSE;
-	controller_state.RB = FALSE;
+	controller_state->LB = FALSE;
+	controller_state->RB = FALSE;
 
-	controller_state.LS= FALSE;
-	controller_state.RS = FALSE;
+	controller_state->LS= FALSE;
+	controller_state->RS = FALSE;
 
-	controller_state.DPAD_UP = FALSE;
-	controller_state.DPAD_DOWN = FALSE;
-	controller_state.DPAD_LEFT = FALSE;
-	controller_state.DPAD_RIGHT= FALSE;
+	controller_state->DPAD_UP = FALSE;
+	controller_state->DPAD_DOWN = FALSE;
+	controller_state->DPAD_LEFT = FALSE;
+	controller_state->DPAD_RIGHT= FALSE;
 
-	controller_state.START = FALSE;
-	controller_state.SELECT = FALSE;
+	controller_state->START = FALSE;
+	controller_state->SELECT = FALSE;
 	
-	controller_state.LEFT_STICK_X = 0.0;
-	controller_state.LEFT_STICK_Y = 0.0;
-	controller_state.RIGHT_STICK_X = 0.0;
-	controller_state.RIGHT_STICK_Y = 0.0;
+	controller_state->LEFT_STICK_X = 0.0;
+	controller_state->LEFT_STICK_Y = 0.0;
+	controller_state->RIGHT_STICK_X = 0.0;
+	controller_state->RIGHT_STICK_Y = 0.0;
 
-	controller_state.LEFT_TRIGGER = 0.0;
-	controller_state.RIGHT_TRIGGER = 0.0;
+	controller_state->LEFT_TRIGGER = 0.0;
+	controller_state->RIGHT_TRIGGER = 0.0;
 
-	return controller_state;
 }
 
-ControllerState getControllerState(int controller) {
+ControllerState getControllerState(INT32 controller) {
 
 	
 	XINPUT_STATE state;
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-	ControllerState controller_state = initState();
+	ControllerState controller_state;
+
+	initState(&controller_state);
 
 	controller_state.IS_CONNECTED = FALSE;
 
@@ -157,19 +159,26 @@ ControllerState getControllerState(int controller) {
 			controller_state.RS = TRUE;
 		}
 
-		controller_state.LEFT_TRIGGER = (float)state.Gamepad.bLeftTrigger / 255;
+		controller_state.LEFT_TRIGGER = max(-1, (float)state.Gamepad.bLeftTrigger / 255);
 		controller_state.RIGHT_TRIGGER = (float)state.Gamepad.bRightTrigger / 255;
 
 
-		controller_state.LEFT_STICK_X = fmaxf(-1, (float)state.Gamepad.sThumbLX / 32767);
-		controller_state.LEFT_STICK_Y = fmaxf(-1, (float)state.Gamepad.sThumbLY / 32767);
+		float normLX = fmaxf(-1, (float)state.Gamepad.sThumbLX / 32767);
+		float normLY = fmaxf(-1, (float)state.Gamepad.sThumbLY / 32767);
 
 		float deadzoneX = 0.05f;
 		float deadzoneY = 0.02f;
 
 
-		controller_state.RIGHT_STICK_X = fmaxf(-1, (float)state.Gamepad.sThumbRX / 32767);
-		controller_state.RIGHT_STICK_Y = fmaxf(-1, (float)state.Gamepad.sThumbRY / 32767);
+
+		controller_state.LEFT_STICK_X = normLX;
+		controller_state.LEFT_STICK_Y = normLY;
+
+
+		controller_state.RIGHT_STICK_X = max(-1, (float)state.Gamepad.sThumbRX / 32767);
+		controller_state.RIGHT_STICK_Y = max(-1, (float)state.Gamepad.sThumbRY / 32767);
+
+		//printf("%f", controller_state.LEFT_STICK_X);
 
 		return controller_state;
 	}

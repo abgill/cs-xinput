@@ -10,10 +10,12 @@ namespace app
     {
 
         public int IS_CONNECTED;
+
         public int A;
         public int B;
         public int X;
         public int Y;
+
         public int LB;
         public int RB;
 
@@ -28,13 +30,14 @@ namespace app
         public int START;
         public int SELECT;
 
-        public float LEFT_STICK_X;
-        public float LEFT_STICK_Y;
-        public float RIGHT_STICK_X;
-        public float RIGHT_STICK_Y;
+        public System.Single LEFT_STICK_X;
+        public System.Single LEFT_STICK_Y;
 
-        public float LEFT_TRIGGER;
-        public float RIGHT_TRIGGER;
+        public System.Single RIGHT_STICK_X;
+        public System.Single RIGHT_STICK_Y;
+
+        public System.Single LEFT_TRIGGER;
+        public System.Single RIGHT_TRIGGER;
 
         public override string ToString()
         {
@@ -52,14 +55,14 @@ namespace app
             sb.AppendLine("RS: " + RS);
             sb.AppendLine();
 
-            sb.AppendLine("Left Stick X: " + LEFT_STICK_X);
-            sb.AppendLine("Left Stick Y: " + LEFT_STICK_Y);
-            sb.AppendLine("Right Stick X: " + RIGHT_STICK_X);
-            sb.AppendLine("Right Stick Y: " + RIGHT_STICK_Y);
+            sb.AppendLine("Left Stick X: " + LEFT_STICK_X + "\t\t");  //Hack to ensure this line gets printed correctly
+            sb.AppendLine("Left Stick Y: " + LEFT_STICK_Y + "\t\t");
+            sb.AppendLine("Right Stick X: " + RIGHT_STICK_X + "\t\t");
+            sb.AppendLine("Right Stick Y: " + RIGHT_STICK_Y + "\t\t");
             sb.AppendLine();
 
-            sb.AppendLine("Left trigger: " + LEFT_TRIGGER);
-            sb.AppendLine("Right trigger: " + RIGHT_TRIGGER);
+            sb.AppendLine("Left trigger: " + LEFT_TRIGGER + "\t\t");
+            sb.AppendLine("Right trigger: " + RIGHT_TRIGGER + "\t\t");
             sb.AppendLine();
 
             sb.AppendLine("Dpad Up: " + DPAD_UP);
