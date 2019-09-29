@@ -50,11 +50,22 @@ namespace app
 
             sb.AppendLine("LS: " + LS);
             sb.AppendLine("RS: " + RS);
+            sb.AppendLine();
 
             sb.AppendLine("Left Stick X: " + LEFT_STICK_X);
             sb.AppendLine("Left Stick Y: " + LEFT_STICK_Y);
             sb.AppendLine("Right Stick X: " + RIGHT_STICK_X);
             sb.AppendLine("Right Stick Y: " + RIGHT_STICK_Y);
+            sb.AppendLine();
+
+            sb.AppendLine("Left trigger: " + LEFT_TRIGGER);
+            sb.AppendLine("Right trigger: " + RIGHT_TRIGGER);
+            sb.AppendLine();
+
+            sb.AppendLine("Dpad Up: " + DPAD_UP);
+            sb.AppendLine("Dpad Down: " + DPAD_DOWN);
+            sb.AppendLine("Dpad Left: " + DPAD_LEFT);
+            sb.AppendLine("Dpad Right: " + DPAD_RIGHT);
 
 
 

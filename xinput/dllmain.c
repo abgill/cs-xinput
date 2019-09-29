@@ -45,7 +45,7 @@ typedef struct {
 	int START;
 	int SELECT;
 
-	FLOAT LEFT_STICK_X;
+	float LEFT_STICK_X;
 	float LEFT_STICK_Y;
 
 	float RIGHT_STICK_X;
@@ -91,6 +91,8 @@ ControllerState initState() {
 
 	controller_state.LEFT_TRIGGER = 0.0;
 	controller_state.RIGHT_TRIGGER = 0.0;
+
+	return controller_state;
 }
 
 ControllerState getControllerState(int controller) {
@@ -99,36 +101,10 @@ ControllerState getControllerState(int controller) {
 	XINPUT_STATE state;
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-	ControllerState controller_state;
+	ControllerState controller_state = initState();
 
 	controller_state.IS_CONNECTED = FALSE;
 
-	controller_state.A = FALSE;
-	controller_state.B = FALSE;
-	controller_state.X = FALSE;
-	controller_state.Y = FALSE;
-
-	controller_state.LB = FALSE;
-	controller_state.RB = FALSE;
-
-	controller_state.LS = FALSE;
-	controller_state.RS = FALSE;
-
-	controller_state.DPAD_UP = FALSE;
-	controller_state.DPAD_DOWN = FALSE;
-	controller_state.DPAD_LEFT = FALSE;
-	controller_state.DPAD_RIGHT = FALSE;
-
-	controller_state.START = FALSE;
-	controller_state.SELECT = FALSE;
-
-	controller_state.LEFT_STICK_X = 0.0;
-	controller_state.LEFT_STICK_Y = 0.0;
-	controller_state.RIGHT_STICK_X = 0.0;
-	controller_state.RIGHT_STICK_Y = 0.0;
-
-	controller_state.LEFT_TRIGGER = 0.0;
-	controller_state.RIGHT_TRIGGER = 0.0;
 	
 
 	if (XInputGetState(controller, &state) == ERROR_SUCCESS)
